@@ -3,7 +3,7 @@
 ;; Copyright (C) 2018  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
-;; Homepage: https://github.com/tarsius/moody
+;; Homepage: https://github.com/tarsius/frameshot
 
 ;; Package-Requires: ((emacs "25.3"))
 
