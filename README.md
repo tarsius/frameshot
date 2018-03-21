@@ -8,7 +8,7 @@ according to simple predetermined rules.
 This package uses the `import` and `convert` binaries from
 the [`imagemagick`](http://www.imagemagick.org) package.
 
-![screenshot](https://emacsair.me/assets/readme/frameshot.png)
+![screenshot](http://readme.emacsair.me/frameshot.png)
 
 Usage
 -----
@@ -54,7 +54,7 @@ Usage
   would like to take a screenshot of, like adjusting the `load-path`.
   On the other hand you might have to turn off some features that you
   do not want to appear in the screenshot.  You will have to decide
-  what is best for you use-case.
+  what is best for your use-case.
 
 * Finally create a screenshot by pressing <kbd>[f8]</kbd>.  If you did
   some manual setup, then you might have to clear the minibuffer first.
@@ -63,7 +63,7 @@ Usage
 
   The resulting screenshot looks like this:
 
-![screenshot](https://emacsair.me/assets/readme/moody.png)
+![screenshot](http://readme.emacsair.me/moody.png)
 
 * Then you likely want to rename the created screenshots files because
   `frameshot-take` adds a timestamp to the file-names (so that you can
@@ -82,7 +82,7 @@ Usage
   contains.
 
   ```
-  ![screenshot](https://emacsair.me/assets/readme/moody.png)
+  ![screenshot](http://readme.emacsair.me/moody.png)
   ```
 
   I can update that screenshot following the above steps and then
@@ -91,11 +91,11 @@ Usage
   ```
   git add .
   cd ../..
-  make publish
+  make publish-readme
   ```
   
-  Unfortunately Github caches images and it takes a while for it to
-  get around and to look for updates.
+  Github caches images for a very long time unless it is told not to
+  by using `no-cache` as the value of the HTTP `Cache-Control` header.
 
   If you are interested in such a setup, then have a look at the
   [emacsair.me](https://github.com/tarsius/emacsair.me) build tools,
