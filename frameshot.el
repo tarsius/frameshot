@@ -47,7 +47,7 @@ See `frameshot-config' for information about the format."
   :group 'frameshot
   :type 'sexp)
 
-(defvar frameshot-config nil
+(defcustom frameshot-config nil
   "Current Frameshot configuration.
 
 The value has this form:
@@ -68,7 +68,14 @@ is WIDTH - SIGMA * 4.  Only after adding the drop shadow the
 final image has the proportions specified by HEIGHT and WIDTH.
 
 The value of this variable is typically set by passing an alist
-that matches the above form to `frameshot-setup'.")
+that matches the above form to `frameshot-setup'.
+
+WARNING: While this variable is defined as a customizable option,
+you should never actually save your customizations.  You may
+however, and that is why this is defined as an option, customize
+and *set* (not save) the value for the current session."
+  :group 'frameshot
+  :type 'sexp)
 
 (defvar frameshot-setup-hook nil
   "Hook run by `frameshot-setup'.
