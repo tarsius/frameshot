@@ -96,13 +96,15 @@ configuration if any."
   (let-alist frameshot-config
     (let ((shadow (if .shadow.sigma (* 4 .shadow.sigma) 0))
           (frame (selected-frame)))
-      (set-frame-size
-       frame
-       (- .width shadow
-          (or  left-fringe-width (frame-parameter frame  'left-fringe))
-          (or right-fringe-width (frame-parameter frame 'right-fringe)))
-       (- .height shadow)
-       t)))
+      (when .width
+        (set-frame-width
+         frame
+         (- .width shadow
+            (or  left-fringe-width (frame-parameter frame  'left-fringe))
+            (or right-fringe-width (frame-parameter frame 'right-fringe)))
+         nil t))
+      (when .height
+        (set-frame-height frame (- .height shadow) nil t))))
   (frameshot-clear))
 
 ;;;###autoload
