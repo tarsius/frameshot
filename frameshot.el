@@ -34,6 +34,8 @@
 
 ;;; Code:
 
+(eval-when-compile (require 'subr-x))
+
 (defvar frameshot-config nil
   "Current Frameshot configuration.
 
@@ -114,9 +116,9 @@ configuration if any."
 (defun frameshot-take ()
   "Take a screenshot of the selected frame."
   (interactive)
-  (let ((file (format "%s-%s.png"
-                      (format-time-string "%Y%m%d-%H:%M:%S")
-                      (cdr (assq 'name frameshot-config)))))
+  (let ((file (concat (and-let* ((name (cdr (assq 'name frameshot-config))))
+                        (concat name "-"))
+                      (format-time-string "%Y%m%d-%H:%M:%S") ".png")))
     (frameshot--import  file)
     (frameshot--convert file)))
 
