@@ -79,8 +79,12 @@ examples.")
 Set variable `frameshot-config' to CONFIG, resize the selected
 frame according to CONFIG, and call `frameshot-setup-hook'.  If
 CONFIG is nil, then use the value of `frameshot-config' instead.
+See `frameshot-config' for the format of CONFIG.
 
-See `frameshot-config' for the format of CONFIG."
+Also run `frameshot-setup-hook' and `frameshot-clear'.
+
+When called interactively, then reload the previously loaded
+configuration if any."
   (interactive)
   (frameshot-mode 1)
   (setq frameshot-buffer (get-buffer-create " *frameshot*"))
