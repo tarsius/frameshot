@@ -36,6 +36,17 @@
 
 (eval-when-compile (require 'subr-x))
 
+(defgroup frameshot nil
+  "Take screenshots of a frame."
+  :group 'multimedia)
+
+(defcustom frameshot-default-config nil
+  "Default Frameshot configuration.
+Use `frameshot-default-setup' to use this configuration.
+See `frameshot-config' for information about the format."
+  :group 'frameshot
+  :type 'sexp)
+
 (defvar frameshot-config nil
   "Current Frameshot configuration.
 
@@ -106,6 +117,14 @@ configuration if any."
       (when .height
         (set-frame-height frame (- .height shadow) nil t))))
   (frameshot-clear))
+
+;;;###autoload
+(defun frameshot-default-setup ()
+  "Setup the selected frame using `frame-default-config'."
+  (interactive)
+  (unless frameshot-default-config
+    (user-error "`frameshot-default-config' is nil"))
+  (frameshot-setup frameshot-default-config))
 
 ;;;###autoload
 (defun frameshot-clear ()
