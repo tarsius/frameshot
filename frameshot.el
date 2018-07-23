@@ -142,6 +142,8 @@ configuration if any."
        file))))
 
 (defun frameshot--call-process (program &rest args)
+  (unless frameshot-buffer
+    (setq frameshot-buffer (get-buffer-create " *frameshot*")))
   (with-current-buffer frameshot-buffer
     (goto-char (point-max))
     (insert "\n$ " (mapconcat #'identity (cons program args) " ") "\n"))
