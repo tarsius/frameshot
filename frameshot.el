@@ -144,7 +144,7 @@ configuration if any."
 (defun frameshot-take ()
   "Take a screenshot of the selected frame."
   (interactive)
-  (let ((file (concat (and-let* ((name (cdr (assq 'name frameshot-config))))
+  (let ((file (concat (when-let ((name (cdr (assq 'name frameshot-config))))
                         (concat name "-"))
                       (format-time-string "%Y%m%d-%H:%M:%S") ".png")))
     (frameshot--import  file)
