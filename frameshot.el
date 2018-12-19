@@ -53,6 +53,7 @@ See `frameshot-config' for information about the format."
 The value has this form:
 
   ((name   . STRING)
+   (output . DIRECTORY)
    (height . PIXELS)
    (width  . PIXELS)
    (shadow . ((color   . COLOR-STRING)
@@ -144,11 +145,13 @@ configuration if any."
 (defun frameshot-take ()
   "Take a screenshot of the selected frame."
   (interactive)
-  (let ((file (concat (when-let ((name (cdr (assq 'name frameshot-config))))
-                        (concat name "-"))
-                      (format-time-string "%Y%m%d-%H:%M:%S") ".png")))
-    (frameshot--import  file)
-    (frameshot--convert file)))
+  (let-alist frameshot-config
+    (let ((file (expand-file-name
+                 (concat (and .name (concat .name "-"))
+                         (format-time-string "%Y%m%d-%H:%M:%S") ".png")
+                 .output)))
+      (frameshot--import  file)
+      (frameshot--convert file))))
 
 (defun frameshot--import (file)
   (frameshot--call-process "import" "-window"
