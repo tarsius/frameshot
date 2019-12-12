@@ -1,6 +1,6 @@
 ;;; frameshot.el --- Take screenshots of a frame  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2018  Jonas Bernoulli
+;; Copyright (C) 2018-2019  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/frameshot
@@ -202,8 +202,10 @@ have to undo a few visual features that I don't want to
 appear in screenshots.  You can do the same, or you can
 use \"emacs -Q\", but then you also have to take care of
 loading the package that you want to demo."
-  (fci-mode -1)
-  (which-key-mode -1)
+  (when (fboundp 'global-display-fill-column-indicator-mode)
+    (global-display-fill-column-indicator-mode -1))
+  (when (fboundp 'which-key-mode)
+    (which-key-mode -1))
   (blink-cursor-mode -1)
   (setq window-min-height 1)
   (setq indicate-buffer-boundaries nil)
