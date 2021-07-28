@@ -1,6 +1,6 @@
 ;;; frameshot.el --- Take screenshots of a frame  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2018-2020  Jonas Bernoulli
+;; Copyright (C) 2018-2021  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/frameshot
@@ -29,8 +29,10 @@
 ;; to simple predetermined rules.  Simple examples can be found at
 ;; https://github.com/tarsius/emacsair.me/tree/master/assets/readme.
 
-;; This package uses the `import' and `convert' binaries from
-;; the `imagemagick' package.
+;; This package optionally uses the `import' and `convert' binaries
+;; from the `imagemagick' package.  By default `import' isn't used
+;; to take screenshots but if you want to add a drop shadow, then
+;; `convert' is required.
 
 ;;; Code:
 
@@ -54,6 +56,7 @@ The value has this form:
 
   ((name   . STRING)
    (output . DIRECTORY)
+   (camera . FUNCTION)
    (height . PIXELS)
    (width  . PIXELS)
    (shadow . ((color   . COLOR-STRING)
@@ -77,6 +80,16 @@ however, and that is why this is defined as an option, customize
 and *set* (not save) the value for the current session."
   :group 'frameshot
   :type 'sexp)
+
+(defcustom frameshot-camera-function 'frameshot-export-frame-png
+  "The function used to take screenshots.
+Called with one argument, the file name without a suffix.
+Must return the file name, possibly after adding a suffix."
+  :group 'frameshot
+  :type '(choice (const frameshot-export-frame-png)
+                 (const frameshot-export-frame-svg)
+                 (const frameshot-imagemagick-import)
+                 function))
 
 (defvar frameshot-setup-hook nil
   "Hook run by `frameshot-setup'.
@@ -146,19 +159,38 @@ configuration if any."
   "Take a screenshot of the selected frame."
   (interactive)
   (let-alist frameshot-config
-    (let ((file (expand-file-name
-                 (concat (and .name (concat .name "-"))
-                         (format-time-string "%Y%m%d-%H:%M:%S") ".png")
-                 .output)))
-      (frameshot--import  file)
-      (frameshot--convert file))))
+    (frameshot-imagemagick-convert
+     (funcall (or .camera frameshot-camera-function)
+              (expand-file-name
+               (concat (and .name (concat .name "-"))
+                       (format-time-string "%Y%m%d-%H:%M:%S")))
+              .output))))
 
-(defun frameshot--import (file)
+(defun frameshot-export-frame-svg (file)
+  "Use `x-export-frames' to take a svg screenshot."
+  (setq file (concat file ".svg"))
+  (with-temp-file file
+    (insert (x-export-frames (selected-frame) 'svg)))
+  file)
+
+(defun frameshot-export-frame-png (file)
+  "Use `x-export-frames' to take a png screenshot."
+  (setq file (concat file ".png"))
+  (with-temp-file file
+    (insert (x-export-frames (selected-frame) 'png)))
+  file)
+
+(defun frameshot-imagemagick-import (file)
+  "Use Imagemagick's `import' executable to take a png screenshot."
+  (setq file (concat file ".png"))
   (frameshot--call-process "import" "-window"
                            (frame-parameter (selected-frame) 'outer-window-id)
-                           file))
+                           file)
+  file)
 
-(defun frameshot--convert (file)
+(defun frameshot-imagemagick-convert (file)
+  "Use Imagemagick's `convert' executable to add a drop shadow.
+The drop shadow details are taken from `frameshot-config'."
   (let-alist frameshot-config
     (when .shadow
       (frameshot--call-process
