@@ -162,9 +162,9 @@ configuration if any."
     (frameshot-imagemagick-convert
      (funcall (or .camera frameshot-camera-function)
               (expand-file-name
-               (concat (and .name (concat .name "-"))
-                       (format-time-string "%Y%m%d-%H:%M:%S")))
-              .output))))
+               (concat ( .name (concat .name "-"))
+                       (format-time-string "%Y%m%d-%H:%M:%S"))
+               .output)))))
 
 (defun frameshot-export-frame-svg (file)
   "Use `x-export-frames' to take a svg screenshot."
