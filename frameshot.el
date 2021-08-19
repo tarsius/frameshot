@@ -162,7 +162,7 @@ configuration if any."
     (frameshot-imagemagick-convert
      (funcall (or .camera frameshot-camera-function)
               (expand-file-name
-               (concat ( .name (concat .name "-"))
+               (concat (and .name (concat .name "-"))
                        (format-time-string "%Y%m%d-%H:%M:%S"))
                .output)))))
 
