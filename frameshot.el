@@ -81,7 +81,7 @@ and *set* (not save) the value for the current session."
   :group 'frameshot
   :type 'sexp)
 
-(defcustom frameshot-camera-function 'frameshot-export-frame-png
+(defcustom frameshot-camera-function #'frameshot-export-frame-png
   "The function used to take screenshots.
 Called with one argument, the file name without a suffix.
 Must return the file name, possibly after adding a suffix."
@@ -242,8 +242,8 @@ loading the package that you want to demo."
   (setq window-min-height 1)
   (setq indicate-buffer-boundaries nil)
   (setq visual-line-fringe-indicators '(nil nil))
-  (remove-hook 'emacs-lisp-mode-hook  'fci-mode)
-  (remove-hook 'git-commit-setup-hook 'fci-mode)
+  (remove-hook 'emacs-lisp-mode-hook  #'fci-mode)
+  (remove-hook 'git-commit-setup-hook #'fci-mode)
   (remove-hook 'prog-mode-hook 'indicate-buffer-boundaries-left))
 
 ;;; _
