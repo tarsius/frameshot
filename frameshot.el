@@ -81,7 +81,10 @@ and *set* (not save) the value for the current session."
   :group 'frameshot
   :type 'sexp)
 
-(defcustom frameshot-camera-function #'frameshot-export-frame-png
+(defcustom frameshot-camera-function
+  (if (fboundp 'x-export-frames) ; Emacs 28
+      #'frameshot-export-frame-png
+    #'frameshot-imagemagick-import)
   "The function used to take screenshots.
 Called with one argument, the file name without a suffix.
 Must return the file name, possibly after adding a suffix."
@@ -168,17 +171,23 @@ configuration if any."
 
 (defun frameshot-export-frame-svg (file)
   "Use `x-export-frames' to take a svg screenshot."
-  (setq file (concat file ".svg"))
-  (with-temp-file file
-    (insert (x-export-frames (selected-frame) 'svg)))
-  file)
+  (if (fboundp 'x-export-frames)
+      (progn
+        (setq file (concat file ".svg"))
+        (with-temp-file file
+          (insert (x-export-frames (selected-frame) 'svg)))
+        file)
+    (user-error "frameshot-export-frame-svg requires Emacs 28")))
 
 (defun frameshot-export-frame-png (file)
   "Use `x-export-frames' to take a png screenshot."
-  (setq file (concat file ".png"))
-  (with-temp-file file
-    (insert (x-export-frames (selected-frame) 'png)))
-  file)
+  (if (fboundp 'x-export-frames)
+      (progn
+        (setq file (concat file ".png"))
+        (with-temp-file file
+          (insert (x-export-frames (selected-frame) 'png)))
+        file)
+    (user-error "frameshot-export-frame-png requires Emacs 28")))
 
 (defun frameshot-imagemagick-import (file)
   "Use Imagemagick's `import' executable to take a png screenshot."
