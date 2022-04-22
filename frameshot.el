@@ -5,7 +5,7 @@
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/frameshot
 
-;; Package-Requires: ((emacs "25.3"))
+;; Package-Requires: ((emacs "25.3") (compat "28.1.1.0"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -35,6 +35,8 @@
 ;; `convert' is required.
 
 ;;; Code:
+
+(require 'compat)
 
 (eval-when-compile (require 'subr-x))
 
