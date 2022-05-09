@@ -235,8 +235,6 @@ The drop shadow details are taken from `frameshot-config'."
   "Float the frame and remove decoration when using the `i3wm' window manager."
   (frameshot--call-process "i3-msg" "floating enable, border pixel 0"))
 
-(declare-function which-key-mode "which-key" (&optional ARG))
-
 (defun frameshot-tarsius-setup ()
   "Setup the frame like the author of this package does.
 
