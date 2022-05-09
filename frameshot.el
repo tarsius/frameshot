@@ -235,7 +235,6 @@ The drop shadow details are taken from `frameshot-config'."
   "Float the frame and remove decoration when using the `i3wm' window manager."
   (frameshot--call-process "i3-msg" "floating enable, border pixel 0"))
 
-(declare-function fci-mode "fill-column-indicator" (&optional ARG))
 (declare-function which-key-mode "which-key" (&optional ARG))
 
 (defun frameshot-tarsius-setup ()
@@ -254,8 +253,6 @@ loading the package that you want to demo."
   (setq window-min-height 1)
   (setq indicate-buffer-boundaries nil)
   (setq visual-line-fringe-indicators '(nil nil))
-  (remove-hook 'emacs-lisp-mode-hook  #'fci-mode)
-  (remove-hook 'git-commit-setup-hook #'fci-mode)
   (remove-hook 'prog-mode-hook 'indicate-buffer-boundaries-left))
 
 ;;; _
