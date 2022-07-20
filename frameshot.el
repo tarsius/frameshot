@@ -97,6 +97,12 @@ Must return the file name, possibly after adding a suffix."
                  (const frameshot-imagemagick-import)
                  function))
 
+(defcustom frameshot-program 'imagemagick
+  "Which program to call for the screenshot."
+  :group 'frameshot
+  :type '(choice (const imagemagick)
+                 (const graphicsmagick)))
+
 (defvar frameshot-setup-hook nil
   "Hook run by `frameshot-setup'.
 See the functions defined at the end of `frameshot.el' for
@@ -195,7 +201,7 @@ configuration if any."
 (defun frameshot-imagemagick-import (file)
   "Use Imagemagick's `import' executable to take a png screenshot."
   (setq file (concat file ".png"))
-  (frameshot--call-process "import" "-window"
+  (frameshot--call-process (frameshot--format "import") "-window"
                            (frame-parameter (selected-frame) 'outer-window-id)
                            file)
   file)
@@ -206,7 +212,7 @@ The drop shadow details are taken from `frameshot-config'."
   (let-alist frameshot-config
     (when .shadow
       (frameshot--call-process
-       "convert" file
+       (frameshot--format "convert") file
        "(" "+clone" "-background" "black"
        "-shadow" (format "%sx%s+%s+%s"
                          .shadow.opacity
@@ -215,6 +221,13 @@ The drop shadow details are taken from `frameshot-config'."
                          (or .shadow.y 0))
        ")" "+swap" "-background" "transparent" "-layers" "merge" "+repage"
        file))))
+
+(defun frameshot--format (program)
+  "Return appropriate PROGRAM call as determined by `frameshot-program'."
+  (pcase frameshot-program
+    ('imagemagick program)
+    ('graphicsmagick (concat "gm " program))
+    (_ (user-error "Set `frameshot-program' to 'imagemagick or 'graphicsmagick"))))
 
 (defun frameshot--call-process (program &rest args)
   (unless frameshot-buffer
