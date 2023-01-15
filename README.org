@@ -97,3 +97,8 @@ the [[http://www.imagemagick.org][imagemagick]] package.
   If you are interested in such a setup, then have a look at the
   [[https://github.com/tarsius/emacsair.me][emacsair.me]] build tools, in particular the ~Makefile~ and the files
   in ~asserts/readme~.
+
+#+html: <br><br>
+#+html: <a href="https://github.com/tarsius/frameshot/actions/workflows/compile.yml"><img alt="Compile" src="https://github.com/tarsius/frameshot/actions/workflows/compile.yml/badge.svg"/></a>
+#+html: <a href="https://stable.melpa.org/#/frameshot"><img alt="MELPA Stable" src="https://stable.melpa.org/packages/frameshot-badge.svg"/></a>
+#+html: <a href="https://melpa.org/#/frameshot"><img alt="MELPA" src="https://melpa.org/packages/frameshot-badge.svg"/></a>
