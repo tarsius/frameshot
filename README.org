@@ -27,10 +27,10 @@ the [[http://www.imagemagick.org][imagemagick]] package.
        (height . 200)
        (width  . 888)
        (shadow . ((color   . "black")
-		  (opacity . 60)
-		  (sigma   . 7)
-		  (x       . 3)
-		  (y       . 4)))))
+                  (opacity . 60)
+                  (sigma   . 7)
+                  (x       . 3)
+                  (y       . 4)))))
 
     (load-file "moody-init.el") ; contains (use-package moody ...)
     (find-file "moody-init.el") ; show that example in the screenshot
@@ -90,7 +90,7 @@ the [[http://www.imagemagick.org][imagemagick]] package.
     cd ../..
     make publish-readme
   #+end_src
-  
+
   Github caches images for a very long time unless it is told not to
   by using ~no-cache~ as the value of the HTTP ~Cache-Control~ header.
 
