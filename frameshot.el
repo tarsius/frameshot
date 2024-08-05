@@ -6,7 +6,7 @@
 ;; Homepage: https://github.com/tarsius/frameshot
 ;; Keywords: multimedia
 
-;; Package-Version: 0.2.8
+;; Package-Version: 1.0.0
 ;; Package-Requires: ((emacs "26.1") (compat "30.0.0.0"))
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
