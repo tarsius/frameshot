@@ -181,7 +181,7 @@ configuration if any."
         (with-temp-file file
           (insert (x-export-frames (selected-frame) 'svg)))
         file)
-    (user-error "frameshot-export-frame-svg requires Emacs 28")))
+    (user-error "`frameshot-export-frame-svg' requires Emacs 28")))
 
 (defun frameshot-export-frame-png (file)
   "Use `x-export-frames' to take a png screenshot."
@@ -191,7 +191,7 @@ configuration if any."
         (with-temp-file file
           (insert (x-export-frames (selected-frame) 'png)))
         file)
-    (user-error "frameshot-export-frame-png requires Emacs 28")))
+    (user-error "`frameshot-export-frame-png' requires Emacs 28")))
 
 (defun frameshot-imagemagick-import (file)
   "Use Imagemagick's `import' executable to take a png screenshot."
