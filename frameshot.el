@@ -85,14 +85,18 @@ and *set* (not save) the value for the current session."
   :group 'frameshot
   :type 'sexp)
 
-(defcustom frameshot-camera-function #'frameshot-export-frame-png
+(defcustom frameshot-camera-function
+  (static-if (fboundp 'x-export-frames)
+      #'frameshot-export-frame-png
+    #'frameshot-imagemagick-import)
   "The function used to take screenshots.
 Called with one argument, the file name without a suffix.
 Must return the file name, possibly after adding a suffix."
   :group 'frameshot
-  :type '(choice (const frameshot-export-frame-png)
-                 (const frameshot-export-frame-svg)
-                 (const frameshot-imagemagick-import)
+  :type `(choice ,@(static-if (fboundp 'x-export-frames)
+                       '((function-item frameshot-export-frame-png)
+                         (function-item frameshot-export-frame-svg)))
+                 (function-item frameshot-imagemagick-import)
                  function))
 
 (defvar frameshot-setup-hook nil
@@ -170,19 +174,21 @@ configuration if any."
                        (format-time-string "%Y%m%d-%H:%M:%S"))
                .output)))))
 
-(defun frameshot-export-frame-svg (file)
-  "Use `x-export-frames' to take a svg screenshot."
-  (setq file (concat file ".svg"))
-  (with-temp-file file
-    (insert (x-export-frames (selected-frame) 'svg)))
-  file)
+(static-if (fboundp 'x-export-frames)
+    (progn
+      (defun frameshot-export-frame-svg (file)
+        "Use `x-export-frames' to take a svg screenshot."
+        (setq file (concat file ".svg"))
+        (with-temp-file file
+          (insert (x-export-frames (selected-frame) 'svg)))
+        file)
 
-(defun frameshot-export-frame-png (file)
-  "Use `x-export-frames' to take a png screenshot."
-  (setq file (concat file ".png"))
-  (with-temp-file file
-    (insert (x-export-frames (selected-frame) 'png)))
-  file)
+      (defun frameshot-export-frame-png (file)
+        "Use `x-export-frames' to take a png screenshot."
+        (setq file (concat file ".png"))
+        (with-temp-file file
+          (insert (x-export-frames (selected-frame) 'png)))
+        file)))
 
 (defun frameshot-imagemagick-import (file)
   "Use Imagemagick's `import' executable to take a png screenshot."
