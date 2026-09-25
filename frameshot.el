@@ -42,8 +42,6 @@
 
 (require 'compat)
 
-(eval-when-compile (require 'subr-x))
-
 (defgroup frameshot nil
   "Take screenshots of a frame."
   :group 'multimedia)
